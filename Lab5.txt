@@ -1,0 +1,27 @@
+Creating Lambda Functions Using the AWS SDK for Python
+To create and execute a serverless function using AWS Lambda concept with Python.
+Step 1: Create project directory
+mkdir lambda-app
+cd lambda-app
+Step 2: Create Lambda function file
+nano lambda_function.py
+
+def lambda_handler(event, context):
+    return {
+        "statusCode": 200,
+        "body": "Hello from Lambda!"
+    }
+Step 3: Create Dockerfile
+nano Dockerfile
+
+FROM public.ecr.aws/lambda/python:3.9
+COPY lambda_function.py .
+CMD ["lambda_function.lambda_handler"]
+
+Step 4: Build Docker image
+docker build -t my-lambda .
+Step 5: Run container
+docker run -p 9000:8080 my-lambda
+Step 6: Invoke Lambda function
+Open another terminal and run:
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{}'
