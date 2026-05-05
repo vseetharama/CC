@@ -1,3 +1,7 @@
+
+Getting Started with Cloud Shell and gcloud: Discover the use of gcloud commands to
+manage Google Cloud resources from Cloud Shell.
+
 mkdir demo
 cd demo
 echo "hello seetha">file.txt
