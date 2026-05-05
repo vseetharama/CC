@@ -1,0 +1,57 @@
+mkdir demo
+cd demo
+echo "hello seetha">file.txt
+cat file.txt
+chmod +x file.txt
+ls -l
+
+file and directory management 
+
+mkdir demo2
+rmdir dem02
+rm  file.txt
+rm -r folder
+
+cp a.txt b.txt
+mv a.txt folder
+
+cat file.txt
+less file.txt //scroll view
+head file.txt
+tail file.txt
+nano file.txt
+vi file.txt
+
+whoami
+uname -a
+df -h
+du -sh *
+free -h
+uptime
+
+env $HOME
+export MYVAR=123
+clear
+
+ apt install mailcap 
+
+Basic gcloud configuration 
+1.check active account
+gcloud auth list 
+2.check active project 
+gcloud config list ptoject 
+3.set a project 
+gcloud config set project project_id
+4.get help
+gcloud help
+gcloud compute --help
+5.list project
+gcloud project list 
+
+cloudshell
+
+cloudshell edit a.txt
+ cat a.txt
+cloudshell edit a.py
+python3 a.py
+
