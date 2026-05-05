@@ -1,0 +1,18 @@
+Cloud Pub/Sub: Experiment how Google Cloud Pub/Sub facilitate real-time messaging
+and communication between distributed applications.
+aim:
+To study and implement Google Cloud Pub/Sub for real-time messaging between distributed applications
+Step 1: Enable Pub/Sub service
+gcloud services enable pubsub.googleapis.com
+Step 2: Create topic
+gcloud pubsub topics create my-topic
+Step 3: Create subscription
+gcloud pubsub subscriptions create my-sub --topic=my-topic
+Step 4: Publish messages
+gcloud pubsub topics publish my-topic --message="Hello 1"
+gcloud pubsub topics publish my-topic --message="Hello 2"
+Step 5: Pull messages
+gcloud pubsub subscriptions pull my-sub --auto-ack --limit=2
+Step 6: Delete resources
+gcloud pubsub subscriptions delete my-sub
+gcloud pubsub topics delete my-topic
