@@ -1,0 +1,66 @@
+10. Automating Application Deployment Using a CI/CD Pipeline
+AIM:
+
+To automate the process of building and deploying an application using a CI/CD pipeline with Docker.
+
+THEORY:
+
+CI/CD stands for Continuous Integration and Continuous Deployment. It automates the process of building, testing, and deploying applications.
+
+CI → Code integration and build
+CD → Automatic deployment
+
+Docker is used to package the application and deploy it consistently.
+
+Step 1: Create project structure
+mkdir myapp
+cd myapp
+
+Create files:
+
+app.py
+Dockerfile
+requirements.txt
+deploy.sh
+Step 2: Create application file
+vi app.py
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Hello from CI/CD automated container!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
+Step 3: Create requirements file
+vi requirements.txt
+flask
+Step 4: Create Dockerfile
+vi Dockerfile
+FROM python:3.10-slim
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+CMD ["python3", "app.py"]
+Step 5: Create deployment script
+vi deploy.sh
+#!/bin/bash
+
+PORT=8080
+
+echo "Building Docker image..."
+docker build -t myapp:latest .
+
+echo "Stopping old containers..."
+docker stop myapp || true
+docker rm myapp || true
+
+echo "Running new container..."
+docker run -d --name myapp -p $PORT:8080 myapp:latest
+
+echo "Application deployed successfully!"
+Step 6: Make script executable
+chmod +x deploy.sh
+Step 7: Run CI/CD pipeline
+./deploy.sh
