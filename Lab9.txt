@@ -1,0 +1,67 @@
+Orchestrating Serverless Functions with AWS Step Functions
+AIM:
+To simulate orchestration of serverless functions using Docker containers by performing sequential image processing tasks (resizing and watermarking).
+Two containers are used:
+
+First container → Resizes the image
+Second container → Adds watermark
+
+This demonstrates workflow execution similar to Step Functions.
+
+PROCEDURE / STEPS:
+Step 1: Create project structure
+mkdir project
+cd project
+mkdir input output resize watermark
+Step 2: Create resize application
+cd resize
+##vi app.py
+from PIL import Image
+import os
+input_path = '/data/input/image.jpg'
+output_path = '/data/output/resized.jpg'
+
+image = Image.open(input_path)
+image = image.resize((300, 300))
+image.save(output_path)
+Step 3: Create Dockerfile for resize
+vi Dockerfile
+FROM python:3.11-slim
+RUN pip install pillow
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+Step 4: Create watermark application
+cd ../watermark
+vi app.py
+from PIL import Image, ImageDraw, ImageFont
+
+input_path = '/data/output/resized.jpg'
+output_path = '/data/output/watermarked.jpg'
+
+image = Image.open(input_path)
+draw = ImageDraw.Draw(image)
+font = ImageFont.load_default()
+draw.text((50, 50), "Sample Watermark", fill=(0,255,128), font=font)
+image.save(output_path)
+Step 5: Create Dockerfile for watermark
+FROM python:3.11-slim
+RUN pip install pillow
+WORKDIR /app
+COPY app.py .
+CMD ["python", "app.py"]
+Step 6: Build Docker images
+cd ..
+docker build -t resize-image ./resize
+docker build -t watermark-image ./watermark
+Step 7: Add input image
+wget -O input/image.jpg https://picsum.photos/600/400
+Step 8: Run containers (workflow execution)
+docker run --rm -v $(pwd)/input:/data/input -v $(pwd)/output:/data/output resize-image
+
+docker run --rm -v $(pwd)/input:/data/input -v $(pwd)/output:/data/output watermark-image
+Step 9: View output
+python3 -m http.server 8080
+
+👉 Open port 8080
+👉 Go to output/ folder
