@@ -1,0 +1,48 @@
+App Engine: Deploy a web application on App Engine with automatic scaling enabled.
+Step 1: Set up project directory
+
+Create a project folder containing:
+
+main.py → Application code
+requirements.txt → Dependencies
+app.yaml → Configuration file
+
+Step 2: Write Flask application
+
+Create main.py:
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, World!'
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080)
+
+requirements.txt:
+
+Flask==2.1.0
+
+Step 4: Create app.yaml file
+
+runtime: python39
+automatic_scaling:
+  min_instances: 0
+  max_instances: 5
+  target_cpu_utilization: 0.65
+
+🔹 Step 1: Install venv package
+
+Run:
+
+apt update
+apt install -y python3-venv
+🔹 Step 2: Create virtual environment
+python3 -m venv venv
+🔹 Step 3: Activate
+source venv/bin/activate
+🔹 Step 4: Install Flask
+pip install flask
+🔹 Step 5: Run app
+python main.py
